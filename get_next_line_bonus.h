@@ -1,5 +1,6 @@
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
+# define FD_MAX 4096 
 
 # include <stdlib.h>
 # include <unistd.h>

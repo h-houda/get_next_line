@@ -1,5 +1,4 @@
 #include "get_next_line_bonus.h"
-#define FD_MAX 257
 
 char	*get_line(char *s)
 {
