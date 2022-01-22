@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hhouda <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/22 13:46:51 by hhouda            #+#    #+#             */
+/*   Updated: 2022/01/22 20:08:33 by hhouda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-char	*get_line(char *s)
+static char	*get_line(char *s)
 {
-	size_t	i;
-	char	*line;
+	size_t		i;
+	char		*line;
 
 	i = 0;
 	if (s[i] == 0)
@@ -28,11 +40,11 @@ char	*get_line(char *s)
 	return (line);
 }
 
-char	*get_remainder(char *s)
+static char	*get_remainder(char *s)
 {
-	int i;
-	int j;
-	char *remainder;
+	int		i;
+	int		j;
+	char	*remainder;
 
 	i = 0;
 	while (s[i] && s[i] != '\n')
@@ -48,37 +60,37 @@ char	*get_remainder(char *s)
 	i++;
 	j = 0;
 	while (s[i])
-	{
-		remainder[j] = s[i];
-		j++;
-		i++;
-	}
+		remainder[j++] = s[i++];
 	remainder[j] = '\0';
 	free (s);
 	return (remainder);
 }
 
-char *get_next_line(int fd)
+static char	*free_and_null(char *s)
 {
-	char *buffer;
-	char *line;
-	static char *content = NULL;
-	int ret;
+	if (s)
+		free(s);
+	return (NULL);
+}
+
+char	*get_next_line(int fd)
+{
+	char		*buffer;
+	char		*line;
+	static char	*content = NULL;
+	int			ret;
 
 	if (fd == -1 || BUFFER_SIZE <= 0)
-		return(NULL);
+		return (NULL);
 	buffer = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	ret = 666;
+	ret = 42;
 	while (!ft_strchr(content, '\n') && ret != 0)
 	{
 		ret = read(fd, buffer, BUFFER_SIZE);
 		if (ret == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
+			return (free_and_null(buffer));
 		buffer[ret] = '\0';
 		content = ft_strjoin(content, buffer);
 	}

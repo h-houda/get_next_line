@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hhouda <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/22 16:10:43 by hhouda            #+#    #+#             */
+/*   Updated: 2022/01/22 16:44:20 by hhouda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line_bonus.h"
 
-char	*get_line(char *s)
+static char	*get_line(char *s)
 {
-	size_t	i;
-	char	*line;
+	size_t		i;
+	char		*line;
 
 	i = 0;
 	if (s[i] == 0)
@@ -28,11 +40,11 @@ char	*get_line(char *s)
 	return (line);
 }
 
-char	*get_remainder(char *s)
+static char	*get_remainder(char *s)
 {
-	int i;
-	int j;
-	char *remainder;
+	int		i;
+	int		j;
+	char	*remainder;
 
 	i = 0;
 	while (s[i] && s[i] != '\n')
@@ -48,25 +60,28 @@ char	*get_remainder(char *s)
 	i++;
 	j = 0;
 	while (s[i])
-	{
-		remainder[j] = s[i];
-		j++;
-		i++;
-	}
+		remainder[j++] = s[i++];
 	remainder[j] = '\0';
 	free (s);
 	return (remainder);
 }
 
-char *get_next_line(int fd)
+static char	*free_and_null(char *s)
 {
-	char *buffer;
-	char *line;
-	static char *content[FD_MAX];
-	int ret;
+	if (s)
+		free(s);
+	return (NULL);
+}
 
-	if (fd == -1 || BUFFER_SIZE <= 0 || fd > FD_MAX)
-		return(NULL);
+char	*get_next_line(int fd)
+{
+	char		*buffer;
+	char		*line;
+	static char	*content[FD_SETSIZE];
+	int			ret;
+
+	if (fd == -1 || BUFFER_SIZE <= 0 || fd > FD_SETSIZE)
+		return (NULL);
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
@@ -75,10 +90,7 @@ char *get_next_line(int fd)
 	{
 		ret = read(fd, buffer, BUFFER_SIZE);
 		if (ret == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
+			return (free_and_null(buffer));
 		buffer[ret] = '\0';
 		content[fd] = ft_strjoin(content[fd], buffer);
 	}

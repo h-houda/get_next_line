@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hhouda <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/22 18:29:36 by hhouda            #+#    #+#             */
+/*   Updated: 2022/01/22 20:20:02 by hhouda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 size_t	ft_strlen(char *str)
@@ -36,26 +48,21 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1)
 	{
-		s1 = (char *)malloc(1);
+		s1 = (char *) malloc(1);
 		s1[0] = '\0';
 	}
 	joined = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!joined)
 		return (NULL);
-	i = 0;
+	i = -1;
 	if (s1)
-		while (s1[i])
-		{
+	{
+		while (s1[++i])
 			joined[i] = s1[i];
-			i++;
-		}
+	}
 	j = 0;
 	while (s2[j])
-	{
-		joined[i] = s2[j];
-		i++;
-		j++;
-	}
+		joined[i++] = s2[j++];
 	joined[ft_strlen(s1) + ft_strlen(s2)] = '\0';
 	free(s1);
 	return (joined);
