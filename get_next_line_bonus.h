@@ -6,7 +6,7 @@
 /*   By: hhouda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 16:44:52 by hhouda            #+#    #+#             */
-/*   Updated: 2022/01/22 18:25:49 by hhouda           ###   ########.fr       */
+/*   Updated: 2022/01/31 15:45:10 by hhouda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 2048
+# endif
 
 # ifndef FD_SETSIZE
 #  define FD_SETSIZE 1024
